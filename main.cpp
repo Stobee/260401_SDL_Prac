@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 
 		if (MyEvent.type == SDL_KEYDOWN)
 		{
-			// 동시입력만 처리되는 문제가..
+			// 대각선 이동이 동시입력만 처리되는 문제가..
 			std::vector<SDL_Keycode>KeyCodes;
 			KeyCodes.push_back(MyEvent.key.keysym.sym);
 
@@ -72,7 +72,6 @@ int main(int argc, char* argv[])
 	SDL_DestroyRenderer(MyRenderer);
 
 	SDL_DestroyWindow(MyWindow);
-
 
 	return 0;
 }
