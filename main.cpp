@@ -11,11 +11,12 @@ int main(int argc, char* argv[])
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_Window* MyWindow = SDL_CreateWindow("Test", 100, 100, 1024, 768, SDL_WINDOW_SHOWN);
-	SDL_Renderer* MyRenderer = SDL_CreateRenderer(MyWindow, -1, 0);
+	SDL_Renderer* MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	int X = 500;
 	int Y = 380;
 	int Size = 20;
-	int MovementSpeed = 5;
+	int MovementSpeed = 1;
 	bool isRunning = true;
 
 	while (isRunning)
@@ -36,35 +37,27 @@ int main(int argc, char* argv[])
 		SDL_SetRenderDrawColor(MyRenderer, 255, 0, 0, 0);
 		SDL_RenderFillRect(MyRenderer, &MyRect);
 
-		if (MyEvent.type == SDL_KEYDOWN)
+		if (currentKeyStates[SDL_SCANCODE_W])
 		{
-			// 대각선 이동이 동시입력만 처리되는 문제가..
-			std::vector<SDL_Keycode>KeyCodes;
-			KeyCodes.push_back(MyEvent.key.keysym.sym);
+			Y -= MovementSpeed;
+		}
+		if (currentKeyStates[SDL_SCANCODE_S])
+		{
+			Y += MovementSpeed;
+		}
+		if (currentKeyStates[SDL_SCANCODE_A])
+		{
+			X -= MovementSpeed;
+		}
+		if (currentKeyStates[SDL_SCANCODE_D])
+		{
+			X += MovementSpeed;
+		}
 
-			for  ( SDL_Keycode Key : KeyCodes)
-			{
-				if (Key == SDLK_w)
-				{
-					Y -= MovementSpeed;
-				}
-				else if (Key == SDLK_s)
-				{
-					Y += MovementSpeed;
-				}
-				else if (Key == SDLK_a)
-				{
-					X -= MovementSpeed;
-				}
-				else if (Key == SDLK_d)
-				{
-					X += MovementSpeed;
-				}
-				else if (Key == SDLK_ESCAPE)
-				{
-					isRunning = false;
-				}
-			}
+		// ESC는 이벤트 루프에서 처리하거나 여기서 처리해도 됩니다.
+		if (currentKeyStates[SDL_SCANCODE_ESCAPE])
+		{
+			isRunning = false;
 		}
 		SDL_RenderPresent(MyRenderer);
 	}
