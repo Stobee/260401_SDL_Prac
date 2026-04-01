@@ -11,7 +11,11 @@ int main(int argc, char* argv[])
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_Window* MyWindow = SDL_CreateWindow("Test", 100, 100, 1024, 768, SDL_WINDOW_SHOWN);
+
+	// vsync 옵션으로 프레임에 맞춰서 렌더링
 	SDL_Renderer* MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	// keyBoardState를 저장해서 사용 >> 직접 Destroy 하면 안됨
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	int X = 500;
 	int Y = 380;
@@ -53,8 +57,6 @@ int main(int argc, char* argv[])
 		{
 			X += MovementSpeed;
 		}
-
-		// ESC는 이벤트 루프에서 처리하거나 여기서 처리해도 됩니다.
 		if (currentKeyStates[SDL_SCANCODE_ESCAPE])
 		{
 			isRunning = false;
