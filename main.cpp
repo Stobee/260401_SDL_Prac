@@ -3,8 +3,6 @@
 #pragma comment(lib, "SDL2")
 #pragma comment(lib, "SDL2main")
 
-#include <vector>
-
 
 int main(int argc, char* argv[])
 {
